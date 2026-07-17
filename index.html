@@ -1,4 +1,4 @@
-<html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Prompt', sans-serif; }
-        input[type="date"], input[type="time"] { min-width: 0 !important; width: 100% !important; max-width: 100% !important; -webkit-appearance: none; appearance: none; }
+        input[type="date"], select { min-width: 0 !important; width: 100% !important; max-width: 100% !important; -webkit-appearance: none; appearance: none; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex items-center justify-center p-4">
@@ -42,8 +42,28 @@
                     <input type="date" id="date" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:outline-none focus:border-gray-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1">เวลา</label>
-                    <input type="time" id="time" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:outline-none focus:border-gray-500">
+                    <label class="block text-xs font-medium text-gray-500 mb-1">เวลา (บล็อกละ 1 ชม.)</label>
+                    <div class="relative">
+                        <!-- เปลี่ยนเป็น select เพื่อให้ขึ้นช่วงเวลาตามที่มึงอยากได้เป๊ะๆ มึง -->
+                        <select id="timeSlot" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:outline-none focus:border-gray-500 cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.65rem_auto] bg-[right_1rem_center] bg-no-repeat pr-8">
+                            <option value="" disabled selected hidden>เลือกเวลาคิว...</option>
+                            <option value="09:00">09:00 - 10:00</option>
+                            <option value="10:00">10:00 - 11:00</option>
+                            <option value="11:00">11:00 - 12:00</option>
+                            <option value="12:00">12:00 - 13:00</option>
+                            <option value="13:00">13:00 - 14:00</option>
+                            <option value="14:00">14:00 - 15:00</option>
+                            <option value="15:00">15:00 - 16:00</option>
+                            <option value="16:00">16:00 - 17:00</option>
+                            <option value="17:00">17:00 - 18:00</option>
+                            <option value="18:00">18:00 - 19:00</option>
+                            <option value="19:00">19:00 - 20:00</option>
+                            <option value="20:00">20:00 - 21:00</option>
+                            <option value="21:00">21:00 - 22:00</option>
+                            <option value="22:00">22:00 - 23:00</option>
+                            <option value="23:00">23:00 - 00:00</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div>
@@ -60,8 +80,7 @@
         </form>
     </div>
     <script>
-    
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwlZvPA6HqPdzRhzHcWI5BdQ9lBNNs0VD3weFk9dZIw08JdROP209tEUefwk_N_ef_3/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxu3YLPLU_qbXTPxUWSNcKSy6_rNgd_kg2KbQoHD6ZpiToxXgFyNmXX9IBWMOJPScWl/exec";
 
         document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -84,15 +103,12 @@
                 });
             }
 
-            const inputTime = document.getElementById('time').value; 
+            const inputTime = document.getElementById('timeSlot').value; // จะได้ค่าเช่น "23:00" ไปส่งหลังบ้าน
             const inputDate = document.getElementById('date').value;
-            const startTime = new Date(`${inputDate}T${inputTime}:00`);
-            const endTime = new Date(startTime.getTime() + (1 * 60 * 60 * 1000));
             
-            const formatTime = (dateObj) => {
-                return dateObj.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', hour12: false });
-            };
-            const timeRangeText = `${formatTime(startTime)} - ${formatTime(endTime)}`; 
+            // ดึงข้อความช่วงเวลาที่เลือกมาโชว์บน SweetAlert (เช่น "23:00 - 00:00")
+            const selectEl = document.getElementById('timeSlot');
+            const timeRangeText = selectEl.options[selectEl.selectedIndex].text;
 
             const params = new URLSearchParams();
             params.append('name', document.getElementById('name').value);
