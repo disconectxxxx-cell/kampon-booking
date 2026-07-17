@@ -1,4 +1,3 @@
-
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -16,10 +15,10 @@
         body { font-family: 'Prompt', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex items-center justify-center p-4 sm:p-6">
+<body class="bg-gray-50 text-gray-800 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Container สีขาวมินิมอล แยกกรอบชัดเจน -->
-    <div class="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+    <!-- Container สีขาวมินิมอล คุมขนาดพอดีหน้าจอ -->
+    <div class="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-6 shadow-sm box-border">
         
         <!-- Header -->
         <div class="text-center mb-6">
@@ -33,54 +32,54 @@
             <!-- ชื่อ-นามสกุล -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">ชื่อ-นามสกุล</label>
-                <input type="text" id="name" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="สมชาย ใจดี">
+                <input type="text" id="name" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border" placeholder="สมชาย ใจดี">
             </div>
 
             <!-- เบอร์โทรศัพท์ -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">เบอร์โทรศัพท์</label>
-                <input type="tel" id="phone" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="089XXXXXXX">
+                <input type="tel" id="phone" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border" placeholder="089XXXXXXX">
             </div>
 
-            <!-- ประเภทงาน (พิมพ์กรอกเอง - เอาตัวอย่างออกแล้ว) -->
+            <!-- ประเภทงาน -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">ประเภทงานที่ต้องการสั่ง / ถ่ายภาพ</label>
-                <input type="text" id="service" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="">
+                <input type="text" id="service" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border" placeholder="">
             </div>
 
             <!-- รายละเอียดงานเพิ่มเติม -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">รายละเอียดงานเพิ่มเติม</label>
-                <textarea id="details" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors resize-none" placeholder="ระบุบรีฟงานหรือรายละเอียดเพิ่มเติม..."></textarea>
+                <textarea id="details" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors resize-none box-border" placeholder="ระบุบรีฟงานหรือรายละเอียดเพิ่มเติม..."></textarea>
             </div>
 
-            <!-- วันที่และเวลา (แก้บั๊กแก้กรอบทับกันในมือถือด้วยการใช้ grid-cols-1 แล้วขยายเป็น 2 ในคอม) -->
+            <!-- วันที่และเวลา (แก้บีบขนาดไม่ให้ทะลุขอบ บล็อกความกว้างให้อยู่ในกรอบ) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
+                <div class="w-full">
                     <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">วันที่จอง</label>
-                    <input type="date" id="date" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors">
+                    <input type="date" id="date" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border">
                 </div>
-                <div>
+                <div class="w-full">
                     <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">เวลา</label>
-                    <input type="time" id="time" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors">
+                    <input type="time" id="time" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border">
                 </div>
             </div>
 
-            <!-- ยอดมัดจำ (เอาตัวอย่างออกแล้ว) -->
+            <!-- ยอดมัดจำ -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">จำนวนเงินมัดจำ (บาท)</label>
-                <input type="number" id="deposit" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="">
+                <input type="number" id="deposit" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors box-border" placeholder="">
             </div>
 
             <!-- แนบสลิป -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">แนบภาพสลิปการโอนเงิน</label>
-                <div class="border border-gray-300 border-dashed rounded-xl p-3 bg-gray-50">
-                    <input type="file" id="slip" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
+                <div class="border border-gray-300 border-dashed rounded-xl p-3 bg-gray-50 box-border">
+                    <input type="file" id="slip" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-2 sm:file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 file:cursor-pointer cursor-pointer">
                 </div>
             </div>
 
-            <!-- ปุ่มกดส่ง มินิมอลเรียบหรู -->
+            <!-- ปุ่มกดส่ง -->
             <button type="submit" id="submitBtn" class="w-full bg-gray-900 text-white font-medium py-3.5 rounded-xl transition-all duration-200 hover:bg-gray-800 active:scale-[0.99] mt-4 cursor-pointer text-sm tracking-wide">
                 ยืนยันการจองคิว
             </button>
