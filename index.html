@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -79,8 +79,7 @@
     </div>
 
     <script>
-        // ⚠️ เอาลิงก์เว็บแอปตัวใหม่ล่าสุดที่มึงเพิ่งก๊อปปี้มาจากสเต็ปที่ 1 มาวางแทนที่ในเครื่องหมายคำพูดนี้มึง!
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqcANzXqG_KH8mDGxS7IEz6OEzkn8JsxCsuWjGpZqcDCpkCHOJgLS4_hq4YMObR3H/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyk7K9QxokJpYQ0jOGdL0_mcrQtcId2ybDnh8uqMcy2kulrPNHjozrsImgPVkk69Rsb/exec";
 
         document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -126,35 +125,29 @@
                 slipType: slipType
             };
 
-            // เปลี่ยนมาใช้การส่งแบบฟอร์มมาตรฐานเพื่อไม่ให้ติดบล็อก CORS
             fetch(WEB_APP_URL, {
                 method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify(formData)
-            })
-            .then(res => res.json())
-            .then(response => {
-                if(response.status === "success") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'BOOKING SUCCESSFUL',
-                        text: 'บันทึกข้อมูลและอัปโหลดสลิปมัดจำเรียบร้อยแล้ว!',
-                        confirmButtonColor: '#111827'
-                    });
-                    document.getElementById('bookingForm').reset();
-                } else {
-                    throw new Error(response.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // แม้เบราว์เซอร์บางตัวจะฟ้อง Error จาก CORS แต่ถ้าหลังบ้านปลดล็อกแล้ว ข้อมูลมักจะเข้าแล้วมึง
+            }
+            .then(() => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'บันทึกสำเร็จ',
-                    text: 'ระบบส่งข้อมูลเรียบร้อยแล้ว กรุณาเช็คที่ตารางของมึง',
+                    title: 'BOOKING SUCCESSFUL',
+                    text: 'ส่งข้อมูลการจองคิวและไฟล์สลิปเรียบร้อยแล้ว!',
                     confirmButtonColor: '#111827'
                 });
                 document.getElementById('bookingForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถติดต่อระบบหลังบ้านได้',
+                    confirmButtonColor: '#111827'
+                });
             })
             .finally(() => {
                 submitBtn.disabled = false;
