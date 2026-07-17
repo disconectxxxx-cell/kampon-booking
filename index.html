@@ -2,382 +2,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kampon Graphics — Booking System</title>
+    <title>Kampon Graphics - Booking</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- SweetAlert2 สำหรับแจ้งเตือนสวยๆ -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Noto Sans Thai', -apple-system, sans-serif;
-            letter-spacing: -0.2px;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.05); }
-            50% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.03); background-color: #f1f5f9; }
-            100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.05); }
-        }
-
-        body {
-            background-color: #fafafa;
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-            overflow-x: hidden;
-        }
-
-        .booking-card {
-            width: 100%;
-            max-width: 480px;
-            background: #ffffff;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.015);
-            border: 1px solid #ebeeef;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        .brand-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .brand-logo {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-            color: #000000;
-            margin-bottom: 4px;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            display: inline-block;
-        }
-        
-        .brand-header:hover .brand-logo {
-            transform: scale(1.04);
-        }
-
-        .brand-subtitle {
-            font-size: 11px;
-            color: #888888;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #000000;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .field-group {
-            margin-bottom: 24px;
-        }
-
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 0px;
-        }
-
-        input[type="text"],
-        input[type="tel"],
-        input[type="number"],
-        input[type="date"],
-        input[type="time"],
-        select, 
-        textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            background-color: #ffffff;
-            color: #000000;
-            outline: none;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #000000;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
-        }
-
-        input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            background: #ffffff;
-            border: 1px dashed #cbd5e1;
-            border-radius: 10px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        input[type="file"]:hover {
-            border-color: #000000;
-            background-color: #fafafa;
-        }
-
-        textarea {
-            resize: none;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background-color: #000000;
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-top: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-submit:hover {
-            background-color: #1a1a1a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .btn-submit:active {
-            transform: translateY(-0.5px);
-        }
-
-        .btn-submit:disabled {
-            background-color: #e2e8f0;
-            color: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            animation: pulseGlow 1.6s infinite ease-in-out;
-        }
-
-        .custom-swal-popup {
-            border-radius: 16px !important;
-            padding: 30px !important;
-            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        .custom-swal-title {
-            font-size: 22px !important;
-            font-weight: 600 !important;
-            color: #000000 !important;
-        }
-
-        .custom-swal-confirm {
-            background-color: #000000 !important;
-            border-radius: 8px !important;
-            padding: 12px 30px !important;
-            font-size: 14px !important;
-            transition: all 0.2s ease !important;
-        }
-        
-        .custom-swal-confirm:hover {
-            background-color: #222222 !important;
-            transform: translateY(-1px);
-        }
+        body { font-family: 'Prompt', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-neutral-950 text-neutral-200 min-h-screen flex items-center justify-center p-4">
 
-<div class="booking-card">
-    <div class="brand-header">
-        <div class="brand-logo">Kampon Graphics</div>
-        <div class="brand-subtitle">Online Booking System</div>
+    <div class="w-full max-w-lg bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:border-neutral-700">
+        <h2 class="text-2xl font-semibold text-center text-white mb-2 tracking-wide">KAMPON GRAPHICS</h2>
+        <p class="text-neutral-400 text-center text-sm mb-6">ระบบจองคิวงานและแนบสลิปมัดจำ</p>
+
+        <form id="bookingForm" class="space-y-4">
+            <!-- ชื่อ-นามสกุล -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">ชื่อ-นามสกุล</label>
+                <input type="text" id="name" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="สมชาย ใจดี">
+            </div>
+
+            <!-- เบอร์โทรศัพท์ -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">เบอร์โทรศัพท์</label>
+                <input type="tel" id="phone" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="089XXXXXXX">
+            </div>
+
+            <!-- ประเภทบริการ -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">ประเภทงานที่ต้องการสั่ง</label>
+                <select id="service" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neutral-500 transition-colors">
+                    <option value="" disabled selected class="text-neutral-600">เลือกประเภทงาน...</option>
+                    <option value="ออกแบบโลโก้">ออกแบบโลโก้</option>
+                    <option value="ออกแบบป้าย/Banner">ออกแบบป้าย / Banner</option>
+                    <option value="ตัดต่อวิดีโอ">ตัดต่อวิดีโอ</option>
+                    <option value="งานกราฟิกอื่นๆ">งานกราฟิกอื่นๆ</option>
+                </select>
+            </div>
+
+            <!-- รายละเอียดงานเพิ่มเติม -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">รายละเอียดงาน</label>
+                <textarea id="details" rows="3" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="อธิบายบรีฟงานคราวๆ..."></textarea>
+            </div>
+
+            <!-- วันที่และเวลา -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">วันที่ต้องการจอง</label>
+                    <input type="date" id="date" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neutral-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">เวลา</label>
+                    <input type="time" id="time" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neutral-500 transition-colors">
+                </div>
+            </div>
+
+            <!-- ยอดมัดจำ -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">จำนวนเงินมัดจำ (บาท)</label>
+                <input type="number" id="deposit" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="300">
+            </div>
+
+            <!-- แนบสลิป -->
+            <div>
+                <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">แนบภาพสลิปการโอนเงิน</label>
+                <input type="file" id="slip" accept="image/*" required class="w-full text-sm text-neutral-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-neutral-800 file:text-white hover:file:bg-neutral-700 file:cursor-pointer cursor-pointer">
+            </div>
+
+            <!-- ปุ่มกดส่ง -->
+            <button type="submit" id="submitBtn" class="w-full bg-white text-black font-medium py-3 rounded-xl transition-all duration-300 hover:bg-neutral-200 active:scale-[0.98] mt-4 cursor-pointer">
+                ยืนยันการจองคิว
+            </button>
+        </form>
     </div>
-    
-    <form id="bookingForm" onsubmit="handleFormSubmit(event)">
-        <div class="field-group">
-            <label class="form-label">ชื่อ - นามสกุล</label>
-            <input type="text" id="name" required placeholder="กรุณากรอกชื่อ-นามสกุลของคุณ">
-        </div>
-        
-        <div class="field-group">
-            <label class="form-label">เบอร์โทรศัพท์</label>
-            <input type="tel" id="phone" required placeholder="08X-XXX-XXXX">
-        </div>
-        
-        <div class="field-group">
-            <label class="form-label">ประเภทงานที่ต้องการ</label>
-            <select id="service" required>
-                <option value="งานปริญญา">งานปริญญา</option>
-                <option value="งานแต่ง">งานแต่ง</option>
-                <option value="งานบวช">งานบวช</option>
-                <option value="งานชุดนักเรียน">งานชุดนักเรียน</option>
-                <option value="งานวันเกิด">งานวันเกิด</option>
-                <option value="อื่นๆ">อื่นๆ (ระบุในรายละเอียดเพิ่มเติม)</option>
-            </select>
-        </div>
-        
-        <div class="field-row">
-            <div class="field-group">
-                <label class="form-label">วันที่จองคิว</label>
-                <input type="date" id="date" required>
-            </div>
-            <div class="field-group">
-                <label class="form-label">เวลา</label>
-                <input type="time" id="time" required>
-            </div>
-        </div>
 
-        <div class="field-group">
-            <label class="form-label">จำนวนเงินมัดจำ (บาท)</label>
-            <input type="number" id="deposit" min="0" required placeholder="0.00">
-        </div>
+    <script>
+        // ⚠️ สเต็ปสำคัญที่สุด: เอารหัสลิงก์เว็บแอปตัวล่าสุดจาก Apps Script มาวางแทนในเครื่องหมายคำพูดตรงนี้มึง!
+        const WEB_APP_URL = "เอาลิงก์เว็บแอปตัวล่าสุดมาวางตรงนี้";
 
-        <div class="field-group">
-            <label class="form-label">แนบหลักฐานการโอนเงิน (สลิป)</label>
-            <input type="file" id="slip" accept="image/*" required>
-        </div>
-        
-        <div class="field-group">
-            <label class="form-label">รายละเอียดงานเพิ่มเติม</label>
-            <textarea id="details" rows="3" placeholder="ระบุบรีฟงาน โทนสี หรือรายละเอียดเพิ่มเติมที่ต้องการ..."></textarea>
-        </div>
-        
-        <button type="submit" id="submitBtn" class="btn-submit">ยืนยันการส่งข้อมูล</button>
-    </form>
-</div>
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'กำลังประมวลผลและอัปโหลดรูปภาพ...';
 
-<script>
-    function handleFormSubmit(e) {
-        e.preventDefault();
-        
-        const submitBtn = document.getElementById('submitBtn');
-        const slipFile = document.getElementById('slip').files[0];
-        
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'กำลังบีบอัดสลิปให้ส่งผ่านได้ง่ายขึ้น...';
+            Swal.fire({
+                title: 'กำลังส่งข้อมูล...',
+                text: 'ระบบกำลังนำข้อมูลเข้าตารางและอัปโหลดสลิป',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
 
-        // ลิงก์ทองคำหลังบ้าน
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyk7K9QxokJpYQ0jOGdL0_mcrQtcId2ybDnh8uqMcy2kulrPNHjozrsImgPVkk69Rsb/exec"; 
+            const fileInput = document.getElementById('slip');
+            const file = fileInput.files[0];
+            
+            let slipData = "";
+            let slipName = "";
+            let slipType = "";
 
-        // ระบบย่อขนาดรูปภาพสลิปอัตโนมัติก่อนส่งไปหลังบ้าน เพื่อป้องกันเออเร่อไฟล์ใหญ่เกินขีดจำกัด
-        const reader = new FileReader();
-        reader.readAsDataURL(slipFile);
-        reader.onload = function (event) {
-            const img = new Image();
-            img.src = event.target.result;
-            img.onload = function () {
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
+            if (file) {
+                slipName = file.name;
+                slipType = file.type;
                 
-                // ย่อขนาดความกว้าง/สูงสูงสุดให้อยู่ในเกณฑ์ 1000px พอดีคำสำหรับอ่านตัวหนังสือ
-                const MAX_SIZE = 1000;
-                if (width > height) {
-                    if (width > MAX_SIZE) {
-                        height *= MAX_SIZE / width;
-                        width = MAX_SIZE;
-                    }
-                } else {
-                    if (height > MAX_SIZE) {
-                        width *= MAX_SIZE / height;
-                        height = MAX_SIZE;
-                    }
-                }
-                
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                // แปลงไฟล์เป็น JPEG บีบอัดคุณภาพเหลือ 75% ทำให้ไฟล์เบาลงมหาศาล ยิงเข้า Google Script ผ่านฉลุย 100%
-                const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
-                const base64Data = dataUrl.split(',')[1];
-                
-                submitBtn.innerText = 'กำลังบันทึกข้อมูลคิวงาน...';
-
-                const formData = {
-                    name: document.getElementById('name').value,
-                    phone: document.getElementById('phone').value,
-                    service: document.getElementById('service').value,
-                    date: document.getElementById('date').value,
-                    time: document.getElementById('time').value,
-                    deposit: document.getElementById('deposit').value,
-                    details: document.getElementById('details').value,
-                    slipData: base64Data,
-                    slipName: slipFile.name.replace(/\.[^/.]+$/, "") + ".jpg", // เปลี่ยนนามสกุลให้เป็น jpg
-                    slipType: "image/jpeg"
-                };
-
-                fetch(WEB_APP_URL, {
-                    method: "POST",
-                    body: JSON.stringify(formData)
-                })
-                .then(res => res.json())
-                .then(response => {
-                    if(response.status === "success") {
-                        Swal.fire({
-                            title: 'BOOKING SUCCESSFUL',
-                            text: 'ระบบได้บันทึกข้อมูลคิวงานและหลักฐานสลิปของท่านเรียบร้อยแล้ว ขอบคุณครับ',
-                            icon: 'success',
-                            customClass: {
-                                popup: 'custom-swal-popup',
-                                title: 'custom-swal-title',
-                                confirmButton: 'custom-swal-confirm'
-                            },
-                            confirmButtonColor: '#000000',
-                            confirmButtonText: 'CLOSE'
-                        }).then(() => {
-                            document.getElementById('bookingForm').reset();
-                            submitBtn.disabled = false;
-                            submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
-                        });
-                    } else {
-                        throw new Error(response.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    Swal.fire({
-                        title: 'ERROR',
-                        text: 'เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง',
-                        icon: 'error',
-                        confirmButtonColor: '#000000'
-                    });
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
+                // ฟังก์ชันแปลงรูปภาพเป็น Base64 เพื่อยิงเข้า Google Drive
+                slipData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        const base64String = reader.result.split(',')[1];
+                        resolve(base64String);
+                    };
+                    reader.readAsDataURL(file);
                 });
-            };
-        };
-        reader.onerror = function (error) {
-            console.error("Error reading file:", error);
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
-        };
-    }
-</script>
+            }
 
+            // รวบรวมข้อมูลฟอร์มทั้งหมด
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                service: document.getElementById('service').value,
+                details: document.getElementById('details').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                deposit: document.getElementById('deposit').value,
+                slipData: slipData,
+                slipName: slipName,
+                slipType: slipType
+            };
+
+            // ยิงข้อมูลไปหลังบ้าน Google Apps Script
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                mode: 'no-cors' // เพื่อป้องกันบั๊กติด CORS ข้ามโดเมน
+            })
+            .then(() => {
+                // พอยิงเสร็จสมบูรณ์ แสดงป๊อปอัพความสำเร็จทันที
+                Swal.fire({
+                    icon: 'success',
+                    title: 'BOOKING SUCCESSFUL',
+                    text: 'บันทึกข้อมูลและอัปโหลดสลิปมัดจำลงคิวเรียบร้อยแล้ว!',
+                    confirmButtonColor: '#000000'
+                });
+                document.getElementById('bookingForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์หลังบ้านได้ กรุณาตรวจเช็คลิงก์ Web App',
+                    confirmButtonColor: '#000000'
+                });
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ยืนยันการจองคิว';
+            });
+        });
+    </script>
 </body>
 </html>
