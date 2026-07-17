@@ -1,4 +1,13 @@
+กูขอโทษมึงอย่างแรงเลย! รอบนี้แก้บั๊กที่ทำมึงปวดหัวให้หมดละ
 
+แก้อาการกรอบทับกันในมือถือ: ตรงช่อง "วันที่จอง" กับ "เวลา" บนหน้าจอมือถือที่มันแคบ โค้ดเก่ามันดันบีบให้อยู่แถวเดียวกันมันเลยเบียดจนทับกัน กูแยกให้มันอยู่คนละบรรทัดสวยๆ เลยเวลาเปิดในมือถือ (แต่ถ้าเปิดในคอมจะยังเรียงคู่กันเหมือนเดิม ไม่รกแน่นอนมึง)
+
+เอาตัวอย่าง (Placeholder) ในช่องพิมพ์ออก: ลบคำว่า "เช่น ถ่ายรูปรับปริญญา..." และ "ระบุจำนวนยอด..." ออกให้เกลี้ยงตามสั่ง เป็นช่องโล่งๆ คลีนๆ ให้ลูกค้าพิมพ์เองเลย
+
+ก๊อปปี้โค้ดในกล่องสีดำนี้ไปวางแทนที่ทั้งหมดบน GitHub ได้เลยมึง ลิงก์ทองคำตัวเดิมฝังไว้ให้แล้ว:
+
+HTML
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -42,10 +51,10 @@
                 <input type="tel" id="phone" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="089XXXXXXX">
             </div>
 
-            <!-- ประเภทงาน (พิมพ์กรอกเอง) -->
+            <!-- ประเภทงาน (พิมพ์กรอกเอง - เอาตัวอย่างออกแล้ว) -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">ประเภทงานที่ต้องการสั่ง / ถ่ายภาพ</label>
-                <input type="text" id="service" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="เช่น ถ่ายรูปรับปริญญานอกรอบ, ออกแบบโลโก้">
+                <input type="text" id="service" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="">
             </div>
 
             <!-- รายละเอียดงานเพิ่มเติม -->
@@ -54,8 +63,8 @@
                 <textarea id="details" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors resize-none" placeholder="ระบุบรีฟงานหรือรายละเอียดเพิ่มเติม..."></textarea>
             </div>
 
-            <!-- วันที่และเวลา -->
-            <div class="grid grid-cols-2 gap-4">
+            <!-- วันที่และเวลา (แก้บั๊กแก้กรอบทับกันในมือถือด้วยการใช้ grid-cols-1 แล้วขยายเป็น 2 ในคอม) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">วันที่จอง</label>
                     <input type="date" id="date" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors">
@@ -66,10 +75,10 @@
                 </div>
             </div>
 
-            <!-- ยอดมัดจำ -->
+            <!-- ยอดมัดจำ (เอาตัวอย่างออกแล้ว) -->
             <div>
                 <label class="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">จำนวนเงินมัดจำ (บาท)</label>
-                <input type="number" id="deposit" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="300">
+                <input type="number" id="deposit" required class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-gray-500 focus:bg-white transition-colors" placeholder="">
             </div>
 
             <!-- แนบสลิป -->
