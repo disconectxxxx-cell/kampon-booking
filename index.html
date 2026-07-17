@@ -1,4 +1,4 @@
-
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -60,13 +60,17 @@
         </form>
     </div>
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxZbUq0QP6_AinbNJ8TvfJwiGCN-7orX954BgPH5bC-plkL-w5nfS6BqMzF-gG-Aqh8/exec";
+    
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwlZvPA6HqPdzRhzHcWI5BdQ9lBNNs0VD3weFk9dZIw08JdROP209tEUefwk_N_ef_3/exec";
+
         document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerText = 'กำลังส่งข้อมูล...';
+            
             Swal.fire({ title: 'กำลังส่งข้อมูล...', text: 'ระบบกำลังส่งข้อมูลและอัปโหลดสลิป', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+            
             const fileInput = document.getElementById('slip');
             const file = fileInput.files[0];
             let slipData = "", slipName = "", slipType = "";
@@ -79,20 +83,37 @@
                     reader.readAsDataURL(file);
                 });
             }
+
+            const inputTime = document.getElementById('time').value; 
+            const inputDate = document.getElementById('date').value;
+            const startTime = new Date(`${inputDate}T${inputTime}:00`);
+            const endTime = new Date(startTime.getTime() + (1 * 60 * 60 * 1000));
+            
+            const formatTime = (dateObj) => {
+                return dateObj.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', hour12: false });
+            };
+            const timeRangeText = `${formatTime(startTime)} - ${formatTime(endTime)}`; 
+
             const params = new URLSearchParams();
             params.append('name', document.getElementById('name').value);
             params.append('phone', document.getElementById('phone').value);
             params.append('service', document.getElementById('service').value);
             params.append('details', document.getElementById('details').value);
-            params.append('date', document.getElementById('date').value);
-            params.append('time', document.getElementById('time').value);
+            params.append('date', inputDate);
+            params.append('time', inputTime);
             params.append('deposit', document.getElementById('deposit').value);
             params.append('slipData', slipData);
             params.append('slipName', slipName);
             params.append('slipType', slipType);
+
             fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() })
             .then(() => {
-                Swal.fire({ icon: 'success', title: 'BOOKING SUCCESSFUL', text: 'ส่งข้อมูลการจองคิวและไฟล์สลิปเรียบร้อยแล้ว!', confirmButtonColor: '#111827' });
+                Swal.fire({ 
+                    icon: 'success', 
+                    title: 'BOOKING SUCCESSFUL', 
+                    html: `ส่งข้อมูลการจองคิวเรียบร้อยแล้ว!<br><br><span style="font-size: 15px; color: #4B5563;">ช่วงเวลาคิวของมึงคือ:</span><br><b style="font-size: 24px; color: #10B981;">${timeRangeText} น.</b>`, 
+                    confirmButtonColor: '#111827' 
+                });
                 document.getElementById('bookingForm').reset();
             })
             .catch(error => {
