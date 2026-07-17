@@ -1,55 +1,252 @@
-function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampon Graphics — Booking</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eeeeee;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 11px;
+            color: #8c8c8c;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #555555;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fafafa;
+            color: #1a1a1a;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02);
+        }
+        input[type="file"] {
+            padding: 10px;
+            background-color: #ffffff;
+            cursor: pointer;
+        }
+        textarea {
+            resize: none;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+        button:hover {
+            background-color: #000000;
+            transform: translateY(-1px);
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Kampon Graphics</h1>
+        <div class="subtitle">ระบบจองคิวออนไลน์</div>
+    </div>
     
-    // 1. จัดการอัปโหลดไฟล์สลิปไปเก็บไว้ที่ Google Drive
-    var slipUrl = "ไม่มีสลิป";
-    if (data.slipData && data.slipName) {
-      var contentType = data.slipType;
-      var slipBlob = Utilities.newBlob(Utilities.base64Decode(data.slipData), contentType, data.slipName);
-      
-      // นำไปเซฟในโฟลเดอร์หลักของมึง (หรืออยากสร้างโฟลเดอร์แยกก็สามารถทำได้)
-      var file = DriveApp.createFile(slipBlob);
-      // เปิดสิทธิ์ลิงก์ให้มึงกดคลิกดูจาก Google Sheet ได้สะดวก
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      slipUrl = file.getUrl();
+    <form id="bookingForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+            <label>ชื่อ - นามสกุล</label>
+            <input type="text" id="name" required placeholder="กรุณากรอกชื่อของคุณ">
+        </div>
+        
+        <div class="form-group">
+            <label>เบอร์โทรศัพท์</label>
+            <input type="tel" id="phone" required placeholder="08X-XXX-XXXX">
+        </div>
+        
+        <div class="form-group">
+            <label>ประเภทงานที่ต้องการ</label>
+            <select id="service" required>
+                <option value="งานปริญญา">งานปริญญา</option>
+                <option value="งานแต่ง">งานแต่ง</option>
+                <option value="งานบวช">งานบวช</option>
+                <option value="งานชุดนักเรียน">งานชุดนักเรียน</option>
+                <option value="งานวันเกิด">งานวันเกิด</option>
+                <option value="อื่นๆ">อื่นๆ (โปรดระบุในรายละเอียดเพิ่มเติม)</option>
+            </select>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>วันที่จอง</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label>เวลา</label>
+                <input type="time" id="time" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>จำนวนเงินมัดจำ (บาท)</label>
+            <input type="number" id="deposit" min="0" required placeholder="ระบุจำนวนเงินที่โอนมัดจำ">
+        </div>
+
+        <div class="form-group">
+            <label>แนบสลิปการโอนเงิน</label>
+            <input type="file" id="slip" accept="image/*" required>
+        </div>
+        
+        <div class="form-group">
+            <label>รายละเอียดงานเพิ่มเติม</label>
+            <textarea id="details" rows="3" placeholder="ระบุรายละเอียดงานที่ต้องการเพิ่มเติม..."></textarea>
+        </div>
+        
+        <button type="submit" id="submitBtn">ยืนยันการจองคิว</button>
+    </form>
+</div>
+
+<script>
+    function handleSubmit(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const slipFile = document.getElementById('slip').files[0];
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'กำลังประมวลผลไฟล์สลิป...';
+
+        // ลิงก์ทองคำหลังบ้านของมึง
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqcANzXqG_KH8mDGxS7IEz6OEzkn8JsxCsuWjGpZqcDCpkCHOJgLS4_hq4YMObR3H/exec"; 
+
+        // แปลงไฟล์รูปภาพเป็น Base64 ส่งไปบันทึกหลังบ้าน
+        const reader = new FileReader();
+        reader.readAsDataURL(slipFile);
+        reader.onload = function () {
+            const base64Data = reader.result.split(',')[1];
+            
+            submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                deposit: document.getElementById('deposit').value,
+                details: document.getElementById('details').value,
+                slipData: base64Data,
+                slipName: slipFile.name,
+                slipType: slipFile.type
+            };
+
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify(formData)
+            })
+            .then(res => res.json())
+            .then(response => {
+                if(response.status === "success") {
+                    Swal.fire({
+                        title: 'ส่งข้อมูลสำเร็จ!',
+                        text: 'ระบบได้บันทึกคิวงานและหลักฐานสลิปเรียบร้อยแล้ว!',
+                        icon: 'success',
+                        confirmButtonColor: '#1a1a1a',
+                        confirmButtonText: 'ตกลง'
+                    }).then(() => {
+                        document.getElementById('bookingForm').reset();
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'ยืนยันการจองคิว';
+                    });
+                } else {
+                    throw new Error(response.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: 'เกิดข้อผิดพลาด!',
+                    text: 'ไม่สามารถส่งหลักฐานสลิปได้ ขนาดไฟล์อาจใหญ่เกินไป กรุณาลองใหม่อีกครั้ง',
+                    icon: 'error',
+                    confirmButtonColor: '#1a1a1a'
+                });
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ยืนยันการจองคิว';
+            });
+        };
+        reader.onerror = function (error) {
+            console.error("Error reading file:", error);
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'ยืนยันการจองคิว';
+        };
     }
-    
-    var deposit = parseFloat(data.deposit) || 0;
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var dateTimeStr = data.date + " " + data.time;
-    
-    // 2. บันทึกลงตารางตามคอลัมน์ A - F (และเพิ่ม G เป็นลิงก์ดูสลิป)
-    sheet.appendRow([
-      data.name,        // A: ชื่อ-นามสกุล
-      data.phone,       // B: เบอร์โทรศัพท์
-      data.service,     // C: รายละเอียดงาน (รอบนี้คือประเภทงาน เช่น งานปริญญา งานแต่ง)
-      dateTimeStr,      // D: วันที่และเวลา
-      deposit,          // E: มัดจำ
-      "",               // F: คงเหลือ (ปล่อยว่างไว้ให้มึงกรอกราคาเต็มหักลบเองในอนาคตได้เลย)
-      slipUrl           // G: ลิงก์รูปภาพสลิปหลักฐาน
-    ]);
-    
-    // 3. ส่งข้อมูลไปสร้างคิวใน Google Calendar
-    var calendars = CalendarApp.getCalendarsByName("Kampon Graphics");
-    var calendar = calendars.length > 0 ? calendars[0] : CalendarApp.getDefaultCalendar();
-    
-    var startDateTime = new Date(data.date + "T" + data.time + ":00");
-    var endDateTime = new Date(startDateTime.getTime() + (1 * 60 * 60 * 1000)); 
-    
-    var eventTitle = "📌 [" + data.service + "] คุณ " + data.name;
-    var eventDescription = "📞 เบอร์: " + data.phone + "\n📝 รายละเอียด: " + data.details + "\n💰 มัดจำ: " + deposit + " บาท\n🧾 ลิงก์สลิป: " + slipUrl;
-    
-    calendar.createEvent(eventTitle, startDateTime, endDateTime, {
-      description: eventDescription
-    });
-    
-    // ตั้งค่าส่งกลับให้หน้าบ้านรู้ว่าทำสำเร็จ
-    var result = JSON.stringify({"status": "success"});
-    return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JSON);
-                         
-  } catch(error) {
-    var result = JSON.stringify({"status": "error", "message": error.toString()});
-    return ContentService.createTextOutput(result).setMimeType(ContentService.MimeType.JSON);
-  }
-}
+</script>
+
+</body>
+</html>
