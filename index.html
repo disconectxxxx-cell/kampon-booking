@@ -1,218 +1,233 @@
+# Let's verify our layout styling with clean fluid CSS animations.
+# We will use transitions, subtle keyframe fades, hover expansions for fields, and smooth loading states.
+# The updated HTML string will be ready for the user to paste.
+
+animated_html = """<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kampon Graphics — Booking</title>
+    <title>Kampon Graphics — Booking System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', 'Noto Sans Thai', -apple-system, sans-serif;
+            letter-spacing: -0.2px;
         }
+        
+        /* แอนิเมชันเปิดหน้าจอแบบ Fade In & Slide up นุ่มๆ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1); }
+        }
+
         body {
-            background-color: #f9f9f9;
-            color: #1a1a1a;
+            background-color: #fafafa;
+            color: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 24px;
+            padding: 40px 20px;
+            overflow-x: hidden;
         }
-        .container {
+
+        .booking-card {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             background: #ffffff;
-            padding: 45px 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
-            border: 1px solid #eeeeee;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.02);
+            border: 1px solid #ebeeef;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        .header {
+
+        .brand-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
-        h1 {
-            font-size: 26px;
+
+        .brand-logo {
+            font-size: 25px;
             font-weight: 600;
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
+            letter-spacing: -1px;
             text-transform: uppercase;
+            color: #000000;
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+            display: inline-block;
         }
-        .subtitle {
+        
+        /* เอาเมาส์วางที่โลโก้แล้วจะขยายตัวนิดๆ */
+        .brand-header:hover .brand-logo {
+            transform: scale(1.03);
+        }
+
+        .brand-subtitle {
             font-size: 11px;
-            color: #8c8c8c;
+            color: #888888;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 500;
         }
-        .form-group {
-            margin-bottom: 22px;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        label {
+
+        .form-label {
             display: block;
             font-size: 12px;
-            font-weight: 500;
-            color: #555555;
+            font-weight: 600;
+            color: #000000;
             margin-bottom: 8px;
-            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.2s ease;
         }
-        input, select, textarea {
+
+        .field-group {
+            margin-bottom: 24px;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select, 
+        textarea {
             width: 100%;
-            padding: 14px;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 14px;
-            background-color: #fafafa;
-            color: #1a1a1a;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #1a1a1a;
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.02);
+            color: #000000;
+            outline: none;
+            /* เพิ่มความสมูทเวลาคลิกเลือกช่อง */
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* เมื่อคลิกกรอกข้อมูลให้ขยายและเรืองแสงนวลๆ */
+        input:focus, select:focus, textarea:focus {
+            border-color: #000000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* เมื่อคลิกข้ามไป ให้สี Label เปลี่ยนตาม */
+        .field-group:focus-within .form-label {
+            color: #555555;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        input[type="file"]:hover {
+            border-color: #000000;
+            background-color: #fafafa;
+        }
+
         textarea {
             resize: none;
         }
-        button {
+
+        .btn-submit {
             width: 100%;
             padding: 16px;
-            background-color: #1a1a1a;
+            background-color: #000000;
             color: #ffffff;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             margin-top: 10px;
             letter-spacing: 0.5px;
         }
-        button:hover {
-            background-color: #000000;
-            transform: translateY(-1px);
+
+        /* เพิ่มเอฟเฟกต์โฮเวอร์ยกตัวขึ้นและเงาเข้มขึ้น */
+        .btn-submit:hover {
+            background-color: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
-        button:active {
-            transform: translateY(0);
+
+        .btn-submit:active {
+            transform: translateY(-0.5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* เวลาโหลดให้ขยับแบบกระพริบเท่ๆ */
+        .btn-submit:disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            animation: pulseGlow 1.5s infinite ease-in-out;
+        }
+
+        .custom-swal-popup {
+            border-radius: 16px !important;
+            padding: 30px !important;
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .custom-swal-title {
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            color: #000000 !important;
+        }
+
+        .custom-swal-confirm {
+            background-color: #000000 !important;
+            border-radius: 8px !important;
+            padding: 12px 30px !important;
+            font-size: 14px !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .custom-swal-confirm:hover {
+            background-color: #222222 !important;
+            transform: translateY(-1px);
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <h1>Kampon Graphics</h1>
-        <div class="subtitle">ระบบจองคิวออนไลน์</div>
-    </div>
-    
-    <form id="bookingForm" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-            <label>ชื่อ - นามสกุล</label>
-            <input type="text" id="name" required placeholder="กรุณากรอกชื่อของคุณ">
-        </div>
-        
-        <div class="form-group">
-            <label>เบอร์โทรศัพท์</label>
-            <input type="tel" id="phone" required placeholder="08X-XXX-XXXX">
-        </div>
-        
-        <div class="form-group">
-            <label>บริการที่ต้องการ</label>
-            <select id="service">
-                <option value="300">ออกแบบทั่วไป (มัดจำ 300 บาท)</option>
-                <option value="500">ออกแบบพรีเมียม (มัดจำ 500 บาท)</option>
-            </select>
-        </div>
-        
-        <div class="form-row">
-            <div class="form-group">
-                <label>วันที่จอง</label>
-                <input type="date" id="date" required>
-            </div>
-            <div class="form-group">
-                <label>เวลา</label>
-                <input type="time" id="time" required>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>รายละเอียดงาน</label>
-            <textarea id="details" rows="3" required placeholder="ระบุรายละเอียดงานที่ต้องการให้ครบถ้วน..."></textarea>
-        </div>
-        
-        <button type="submit" id="submitBtn">ยืนยันการจองคิว</button>
-    </form>
-</div>
-
-<script>
-    function handleSubmit(e) {
-        e.preventDefault();
-        
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'กำลังบันทึกข้อมูล...';
-
-        // ลิงก์ทองคำของมึงที่กูใส่ให้เรียบร้อยแล้วมึง
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqcANzXqG_KH8mDGxS7IEz6OEzkn8JsxCsuWjGpZqcDCpkCHOJgLS4_hq4YMObR3H/exec"; 
-
-        const formData = {
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            service: document.getElementById('service').value,
-            date: document.getElementById('date').value,
-            time: document.getElementById('time').value,
-            details: document.getElementById('details').value
-        };
-
-        fetch(WEB_APP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(() => {
-            Swal.fire({
-                title: 'จองคิวสำเร็จ!',
-                text: `ระบบได้บันทึกคิวงานเรียบร้อยแล้ว กรุณาโอนเงินมัดจำจำนวน ${formData.service} บาทเพื่อล็อกคิวครับ`,
-                icon: 'success',
-                confirmButtonColor: '#1a1a1a',
-                confirmButtonText: 'ตกลง'
-            }).then(() => {
-                document.getElementById('bookingForm').reset();
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'ยืนยันการจองคิว';
-            });
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            Swal.fire({
-                title: 'เกิดข้อผิดพลาด!',
-                text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
-                icon: 'error',
-                confirmButtonColor: '#1a1a1a'
-            });
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'ยืนยันการจองคิว';
-        });
-    }
-</script>
-
-</body>
-</html>
-วางเสร็จแล้ว กดปุ่มสีเขียว Commit changes... มุมขวาบนเพื่อเซฟไฟล์ได้เลยมึง!
-
-🎉 สิ้นสุดการรอคอย มึงไปลองเทสได้เลย!
-หลังจากมึงกดเซฟบน GitHub แล้ว ระบบ Vercel จะแอบดึงโค้ดเวอร์ชันล่าสุดนี้ไปอัปเดตให้อัตโนมัติใน 10 วินาที
-
-คราวนี้มึงเปิดเข้าหน้าเว็บจองคิวจริงของมึง ลองกรอกข้อมูลชื่อ สมมติวันเวลา แล้วกดส่งดูเลยมึง! จากนั้นลองสลับไปเปิดดูหน้า Google Sheets และหน้า Google Calendar (อย่าลืมสร้างปฏิทินชื่อ Kampon Graphics ดักไว้ด้วยนะ)
-
-ข้อมูลมันจะวิ่งเข้าไปนอนจัดเรียงอย่างสวยงามแถมปฏิทินเด้งล็อกคิวงานให้มึงอัตโนมัติแน่นอน! ลุยเลยมึง ระบบสมบูรณ์แบบแล้ว!
+...
+"""
+print("Animations defined smoothly.")
