@@ -1,13 +1,16 @@
+มึงงงงง! ดูในรูปหน้าจอ GitHub ล่าสุดที่มึงส่งมา ตรงบรรทัดที่ 88 มันยังเป็นคำว่า "เอาลิงก์เว็บแอปตัวล่าสุดมาวางตรงนี้" อยู่เลยมึง! มันเลยยังส่งข้อมูลไม่ได้
+
+รอบนี้กูเอาโค้ดชุดปิดงานของจริงมาให้ละ ไม่มีภาษาไทยหรือข้อความไร้สาระปนในเนื้อโค้ดแน่นอน มึงก๊อปปี้โค้ดในกล่องสีดำนี้ทั้งหมด ไปวางครอบทับของเดิมในหน้า GitHub ได้เลยมึง ลิงก์ล่าสุดถูกฝังไว้ข้างในเรียบร้อยแล้ว:
+
+HTML
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kampon Graphics - Booking</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- SweetAlert2 สำหรับแจ้งเตือนสวยๆ -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,19 +25,16 @@
         <p class="text-neutral-400 text-center text-sm mb-6">ระบบจองคิวงานและแนบสลิปมัดจำ</p>
 
         <form id="bookingForm" class="space-y-4">
-            <!-- ชื่อ-นามสกุล -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">ชื่อ-นามสกุล</label>
                 <input type="text" id="name" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="สมชาย ใจดี">
             </div>
 
-            <!-- เบอร์โทรศัพท์ -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">เบอร์โทรศัพท์</label>
                 <input type="tel" id="phone" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="089XXXXXXX">
             </div>
 
-            <!-- ประเภทบริการ -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">ประเภทงานที่ต้องการสั่ง</label>
                 <select id="service" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neutral-500 transition-colors">
@@ -46,13 +46,11 @@
                 </select>
             </div>
 
-            <!-- รายละเอียดงานเพิ่มเติม -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">รายละเอียดงาน</label>
                 <textarea id="details" rows="3" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="อธิบายบรีฟงานคราวๆ..."></textarea>
             </div>
 
-            <!-- วันที่และเวลา -->
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">วันที่ต้องการจอง</label>
@@ -64,19 +62,16 @@
                 </div>
             </div>
 
-            <!-- ยอดมัดจำ -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">จำนวนเงินมัดจำ (บาท)</label>
                 <input type="number" id="deposit" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors" placeholder="300">
             </div>
 
-            <!-- แนบสลิป -->
             <div>
                 <label class="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-1">แนบภาพสลิปการโอนเงิน</label>
                 <input type="file" id="slip" accept="image/*" required class="w-full text-sm text-neutral-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-neutral-800 file:text-white hover:file:bg-neutral-700 file:cursor-pointer cursor-pointer">
             </div>
 
-            <!-- ปุ่มกดส่ง -->
             <button type="submit" id="submitBtn" class="w-full bg-white text-black font-medium py-3 rounded-xl transition-all duration-300 hover:bg-neutral-200 active:scale-[0.98] mt-4 cursor-pointer">
                 ยืนยันการจองคิว
             </button>
@@ -84,15 +79,14 @@
     </div>
 
     <script>
-        // ⚠️ สเต็ปสำคัญที่สุด: เอารหัสลิงก์เว็บแอปตัวล่าสุดจาก Apps Script มาวางแทนในเครื่องหมายคำพูดตรงนี้มึง!
-        const WEB_APP_URL = "เอาลิงก์เว็บแอปตัวล่าสุดมาวางตรงนี้";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqcANzXqG_KH8mDGxS7IEz6OEzkn8JsxCsuWjGpZqcDCpkCHOJgLS4_hq4YMObR3H/exec";
 
         document.getElementById('bookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqcANzXqG_KH8mDGxS7IEz6OEzkn8JsxCsuWjGpZqcDCpkCHOJgLS4_hq4YMObR3H/exec";
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerText = 'กำลังประมวลผลและอัปโหลดรูปภาพ...';
+            submitBtn.innerText = 'กำลังประมวลผล...';
 
             Swal.fire({
                 title: 'กำลังส่งข้อมูล...',
@@ -112,7 +106,6 @@
                 slipName = file.name;
                 slipType = file.type;
                 
-                // ฟังก์ชันแปลงรูปภาพเป็น Base64 เพื่อยิงเข้า Google Drive
                 slipData = await new Promise((resolve) => {
                     const reader = new FileReader();
                     reader.onloadend = () => {
@@ -123,7 +116,6 @@
                 });
             }
 
-            // รวบรวมข้อมูลฟอร์มทั้งหมด
             const formData = {
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
@@ -137,18 +129,16 @@
                 slipType: slipType
             };
 
-            // ยิงข้อมูลไปหลังบ้าน Google Apps Script
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify(formData),
-                mode: 'no-cors' // เพื่อป้องกันบั๊กติด CORS ข้ามโดเมน
+                mode: 'no-cors'
             })
             .then(() => {
-                // พอยิงเสร็จสมบูรณ์ แสดงป๊อปอัพความสำเร็จทันที
                 Swal.fire({
                     icon: 'success',
                     title: 'BOOKING SUCCESSFUL',
-                    text: 'บันทึกข้อมูลและอัปโหลดสลิปมัดจำลงคิวเรียบร้อยแล้ว!',
+                    text: 'บันทึกข้อมูลและอัปโหลดสลิมมัดจำเรียบร้อยแล้ว!',
                     confirmButtonColor: '#000000'
                 });
                 document.getElementById('bookingForm').reset();
@@ -158,7 +148,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'เกิดข้อผิดพลาด',
-                    text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์หลังบ้านได้ กรุณาตรวจเช็คลิงก์ Web App',
+                    text: 'ไม่สามารถส่งข้อมูลได้',
                     confirmButtonColor: '#000000'
                 });
             })
